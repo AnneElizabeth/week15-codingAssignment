@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 
 
 function App() {
+  
+  // variables created for API link, state for existing users, new users and updated users data
   const API_URL = 'https://64bf199d5ee688b6250d1f4c.mockapi.io/ees'
 
   const [users, setUsers] = useState([])
@@ -21,36 +23,26 @@ function App() {
       getUsers
     }, [])
   
-    function getUsers() {
-      fetch(API_URL)
-        .then((data) => data.json())
-        .then((data) => {
-          setUsers(data)
-          console.log(data)
-        })
-    }
+// function for fetching users and displaying them
 
-    function deleteUser(id) {
-      fetch(API_URL + `/${id}`, {
-        method: 'DELETE',
-      }).then(() => getUsers())
-    }
+  function getUsers() {
+    fetch(API_URL)
+      .then((data) => data.json())
+      .then((data) => {
+        setUsers(data)
+        console.log(data)
+    })
+  }
 
-    function postNewUser(e) {
-      e.preventDefault()
-      fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: newUserName,
-          jobTitle: newUserJobTitle,
-          companyName: newUserCompanyName,
-        }),
-      }).then(() => getUsers())
-    }
+  // function for deleting a user
+  function deleteUser(id) {
+    fetch(API_URL + `/${id}`, {
+      method: 'DELETE',
+    }).then(() => getUsers())
+  }
 
+
+  // function for creating a new user
   function postNewUser(e) {
     e.preventDefault()
     fetch(API_URL, {
@@ -65,6 +57,8 @@ function App() {
       }),
     }).then(() => getUsers())
   }
+
+  // function for updating an existing user
 
   function updateUser(e, userObject) {
     e.preventDefault()
@@ -85,6 +79,7 @@ function App() {
     }).then(() => getUsers())
   }
 
+  // JSX for new and update user forms
   return (
     <div className="App">
       <form>
